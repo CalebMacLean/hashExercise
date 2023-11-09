@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+<h1>{{ user.username }}</h1>
+
+<div class="row">
+    <div class="col-sm-10 col-12">
+        <h2 class="mt-4">Feedback</h2>
+
+        <ul>
+            {% for fb in user.feedback %}
+            <li>
+                <h5>{{ fb.title }}</h5>
+                {{ fb.content }}
+            </li>
+
+            <form>
+                {{ form.hidden_tag() }}
+                <button class="btn btn-primary" formmethod="GET"  formaction="/feedback/{{ fb.id }}/update">
+                    Edit
+                </button>
+                <button class="btn btn-danger" formmethod="POST" formaction="/feedback/{{ fb.id }}/delete">
+                    Delete
+                </button>
+            </form>
+            {% endfor %}
+        </ul>
+
+        <div>
+            <a href="/users/{{ user.username }}/feedback/new" class="btn btn-primary">
+                Add Feedback!
+            </a>
+        </div>
+
+        <form>
+            <button class="btn btn-danger btn-sm" formaction="/users/{{ user.username }}/delete" formmethod="POST">
+                Delete User
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}
